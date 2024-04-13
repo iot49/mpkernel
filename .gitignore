@@ -17,3 +17,13 @@ htmlcov
 .cache
 .idea
 data_kernelspec
+
+
+.ipynb_checkpoints
+.vscode
+local
+remote
+.envrc
+CHANGELOG.md
+hatch_build.py
+*.ipynb
