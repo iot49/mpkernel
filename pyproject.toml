@@ -4,19 +4,17 @@ build-backend = "hatchling.build"
 
 [project]
 name = "echo-kernel"
-dynamic = ["version"]
-description = "Simple example kernel for Jupyter"
-readme = "README.rst"
+version = "0.0.1"
+description = "Jupyter kernel for MicroPython"
+readme = "README.md"
 license = { file = "LICENSE" }
-authors = [
-    { name = "Jupyter Development Team", email = "jupyter@googlegroups.com" },
-]
+authors = [{ name = "Bernhard Boser", email = "bernhard.e.boser@gmail.com" }]
 classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python :: 3",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 dependencies = [
     "ipykernel",
     "jupyter_client",
@@ -31,7 +29,10 @@ test = ["jupyter_kernel_test"]
 Homepage = "https://github.com/jupyter/echo_kernel"
 
 [tool]
-rye = { dev-dependencies = ["jupyterlab>=4.1.6"] }
+rye = { dev-dependencies = [
+    "jupyterlab>=4.1.6",
+    "jupyter>=1.0.0",
+] }
 
 [tool.hatch.version]
 path = "echo_kernel/__init__.py"
@@ -45,3 +46,7 @@ include = ["/echo_kernel"]
 
 [tool.hatch.build.targets.wheel.shared-data]
 "data_kernelspec/share" = "share"
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["echo_kernel"]
