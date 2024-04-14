@@ -41,7 +41,7 @@ cffi==1.16.0
 charset-normalizer==3.3.2
     # via requests
 colored==2.2.4
-    # via echo-kernel
+    # via mpkernel
 comm==0.2.2
     # via ipykernel
     # via ipywidgets
@@ -71,10 +71,10 @@ idna==3.7
 importlib-metadata==7.1.0
     # via mpremote
 ipykernel==6.29.4
-    # via echo-kernel
     # via jupyter
     # via jupyter-console
     # via jupyterlab
+    # via mpkernel
     # via qtconsole
 ipython==8.23.0
     # via ipykernel
@@ -103,10 +103,10 @@ jsonschema-specifications==2023.12.1
     # via jsonschema
 jupyter==1.0.0
 jupyter-client==8.6.1
-    # via echo-kernel
     # via ipykernel
     # via jupyter-console
     # via jupyter-server
+    # via mpkernel
     # via nbclient
     # via qtconsole
 jupyter-console==6.6.3
@@ -151,7 +151,7 @@ matplotlib-inline==0.1.6
 mistune==3.0.2
     # via nbconvert
 mpremote==1.22.0
-    # via echo-kernel
+    # via mpkernel
 nbclient==0.10.0
     # via nbconvert
 nbconvert==7.16.3

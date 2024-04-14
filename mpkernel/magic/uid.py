@@ -1,9 +1,9 @@
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import line_magic
 
 
 @line_magic
-def uid_magic(kernel: EchoKernel, _, __):
+def uid_magic(kernel: MpKernel, _, __):
     """Print the uid (machine.unique_id()) of the remote device."""
     kernel.exec_remote(_uid_func)
 

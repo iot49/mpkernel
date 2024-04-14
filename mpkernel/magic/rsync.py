@@ -4,7 +4,7 @@ from fnmatch import fnmatch
 
 from colored import Fore, Style
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from ..remote_ops import fput, remote_list, rm_rf
 from . import arg, line_magic
 
@@ -34,7 +34,7 @@ from . import arg, line_magic
     help="Path to the file or directory to list. Defaults to $MP_REMOTE_PATH or $MP_LOCAL_PATH with -l option.",
 )
 @line_magic
-def rlist_magic(kernel: EchoKernel, args):
+def rlist_magic(kernel: MpKernel, args):
     """List files
 
     Examples:
@@ -93,7 +93,7 @@ def rlist_magic(kernel: EchoKernel, args):
     help="Path to directory on remote. Defaults to $MP_REMOTE_PATH or /.",
 )
 @line_magic
-def rsync_magic(kernel: EchoKernel, args):
+def rsync_magic(kernel: MpKernel, args):
     """Synchronize local to remote by sending differences from local to remote.
 
     Note 1: Only sends files from local to remote. Use cp to copy files

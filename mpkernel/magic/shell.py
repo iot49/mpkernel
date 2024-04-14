@@ -1,12 +1,12 @@
 from subprocess import PIPE, STDOUT, Popen
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import arg, cell_magic
 
 
 @arg("-s", "--shell", help="Shell to use", default="/bin/bash")
 @cell_magic
-def shell_magic(kernel: EchoKernel, args, code):
+def shell_magic(kernel: MpKernel, args, code):
     """Pass cell to shell for evaluation
 
     Example:

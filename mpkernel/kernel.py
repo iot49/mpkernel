@@ -7,17 +7,17 @@ from mpremote.transport import TransportError
 from .magic import CELL_MAGIC, LINE_MAGIC
 
 
-class EchoKernel(Kernel):
-    implementation = "Echo"
+class MpKernel(Kernel):
+    implementation = "MpKernel"
     implementation_version = "1.0"
     language = "no-op"
     language_version = "0.1"
     language_info = {
-        "name": "echo",
+        "name": "mpkernel",
         "mimetype": "text/plain",
         "file_extension": ".txt",
     }
-    banner = "Echo kernel - as useful as a parrot"
+    banner = "MpKernel - a Jupyter kernel for MicroPython."
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

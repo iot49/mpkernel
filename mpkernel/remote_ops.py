@@ -1,20 +1,20 @@
 import os
 from io import BytesIO
 
-from .kernel import EchoKernel
+from .kernel import MpKernel
 
 
-def rm_rf(kernel: EchoKernel, path: str, r: bool = True, f: bool = True):
+def rm_rf(kernel: MpKernel, path: str, r: bool = True, f: bool = True):
     """rm -rf path"""
     kernel.exec_remote(f"{_rm_rf_func}\nrm_rf({repr(path)}, {r}, {f})")
 
 
-def makedirs(kernel: EchoKernel, path: str):
+def makedirs(kernel: MpKernel, path: str):
     """makedirs path"""
     kernel.exec_remote(f"{_makedirs_func}\nmakedirs({repr(path)})")
 
 
-def fput(kernel: EchoKernel, local_path: str, remote_path: str, chunk_size=256):
+def fput(kernel: MpKernel, local_path: str, remote_path: str, chunk_size=256):
     makedirs(kernel, os.path.dirname(remote_path))
     kernel.exec_remote(f"_f=open('{remote_path}','wb');_w=_f.write")
     with open(local_path, "rb") as f:
@@ -26,7 +26,7 @@ def fput(kernel: EchoKernel, local_path: str, remote_path: str, chunk_size=256):
     kernel.exec_remote("_f.close()")
 
 
-def remote_list(kernel: EchoKernel, path):
+def remote_list(kernel: MpKernel, path):
     buf = BytesIO()
     kernel.exec_remote(
         _list_files.replace("__PATH__", repr(path)), data_consumer=buf.write

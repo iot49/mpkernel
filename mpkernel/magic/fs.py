@@ -1,6 +1,6 @@
 from mpremote.commands import do_filesystem
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import arg, line_magic
 
 
@@ -20,7 +20,7 @@ from . import arg, line_magic
 @arg("path", nargs="*", default=["/"], help="paths (default: /)")
 @arg("command", nargs=1, help="filesystem command (e.g. cat, cp, ls, rm, touch)")
 @line_magic
-def fs_magic(kernel: EchoKernel, args):
+def fs_magic(kernel: MpKernel, args):
     """File system commands.
 
     <command> may be:
@@ -57,7 +57,7 @@ def fs_magic(kernel: EchoKernel, args):
 
 
 @line_magic
-def df_magic(kernel: EchoKernel, _):
+def df_magic(kernel: MpKernel, _):
     """Display remote filesystem disk usage."""
     kernel.exec_remote(_df_func)
 

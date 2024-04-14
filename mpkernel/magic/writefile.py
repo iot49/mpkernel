@@ -1,6 +1,6 @@
 import os
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import arg, cell_magic
 
 
@@ -9,7 +9,7 @@ from . import arg, cell_magic
 )
 @arg("path", help="file path")
 @cell_magic
-def writefile(kernel: EchoKernel, args, code):
+def writefile(kernel: MpKernel, args, code):
     """Write cell contents to file
     Example:
         %%writefile sample.py

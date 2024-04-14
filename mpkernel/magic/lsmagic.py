@@ -1,4 +1,4 @@
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import CELL_MAGIC, LINE_MAGIC, arg, line_magic
 
 
@@ -9,7 +9,7 @@ from . import CELL_MAGIC, LINE_MAGIC, arg, line_magic
     help="Show detailed help for each line magic.",
 )
 @line_magic
-def lsmagic_magic(kernel: EchoKernel, args):
+def lsmagic_magic(kernel: MpKernel, args):
     """List all magic functions"""
     if args.verbose:
         for k, v in sorted(LINE_MAGIC.items()):

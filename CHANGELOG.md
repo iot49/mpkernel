@@ -1,6 +1,10 @@
-# Changes in echo kernel
+# Changes in mpkernel
 
 <!-- <START NEW CHANGELOG ENTRY> -->
+
+## 0.0.1
+
+mpkernel
 
 ## 1.1
 

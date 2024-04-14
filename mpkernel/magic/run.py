@@ -1,6 +1,6 @@
 import sys
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import arg, line_magic
 
 
@@ -10,7 +10,7 @@ from . import arg, line_magic
     help="Path to file to run",
 )
 @line_magic
-def run_magic(kernel: EchoKernel, args):
+def run_magic(kernel: MpKernel, args):
     """Execute code from file on remote device"""
     filename = args.path[0]
     try:

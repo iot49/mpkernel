@@ -1,12 +1,12 @@
 import os
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import arg, line_magic
 
 
 @arg("path", nargs="?", default="~", help="new working directory on host")
 @line_magic
-def cd_magic(kernel: EchoKernel, args):
+def cd_magic(kernel: MpKernel, args):
     """Change current working directory on host
     Expands ~ and shell variables."""
     path = os.path.expanduser(args.path)
@@ -18,6 +18,6 @@ def cd_magic(kernel: EchoKernel, args):
 
 
 @line_magic
-def cwd_magic(kernel: EchoKernel, args):
+def cwd_magic(kernel: MpKernel, args):
     """Print current working directory on host"""
     print(f"cwd = {os.getcwd()}")

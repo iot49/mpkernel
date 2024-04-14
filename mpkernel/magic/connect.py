@@ -1,7 +1,7 @@
 import serial.tools.list_ports
 from mpremote.commands import do_connect, do_disconnect
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import arg, line_magic
 
 
@@ -11,7 +11,7 @@ from . import arg, line_magic
     help="Either list, auto, id:x, port:x, or any valid device name/path",
 )
 @line_magic
-def connect_magic(kernel: EchoKernel, args):
+def connect_magic(kernel: MpKernel, args):
     """Connect to remote device
 
     device may be one of:
@@ -51,6 +51,6 @@ def connect_magic(kernel: EchoKernel, args):
 
 
 @line_magic
-def disconnect_magic(kernel: EchoKernel, args):
+def disconnect_magic(kernel: MpKernel, args):
     """Disconnect from remote device"""
     do_disconnect(kernel.state)

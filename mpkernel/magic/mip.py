@@ -1,6 +1,6 @@
 import os
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from ..mip import install
 from . import arg, line_magic
 
@@ -20,7 +20,7 @@ from . import arg, line_magic
 )
 @arg("command", nargs=1, help="mip command (e.g. install)")
 @line_magic
-def mip_magic(kernel: EchoKernel, args):
+def mip_magic(kernel: MpKernel, args):
     """Install MicroPython packages on the local device.
 
     Important: unlike mpremote, this magic installs packages on the local device.

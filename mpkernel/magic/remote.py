@@ -5,11 +5,11 @@ from subprocess import PIPE, STDOUT, Popen
 
 from serial.serialutil import SerialException
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import LINE_MAGIC, cell_magic
 
 
-def line_magic(kernel: EchoKernel, line):
+def line_magic(kernel: MpKernel, line):
     if line.startswith("!"):
         with Popen(
             line[1:],
@@ -37,7 +37,7 @@ def line_magic(kernel: EchoKernel, line):
 
 
 @cell_magic
-def remote_magic(kernel: EchoKernel, args, code):
+def remote_magic(kernel: MpKernel, args, code):
     """Evaluate code on remote device
 
     Example:

@@ -3,7 +3,7 @@ from io import BytesIO
 
 from mpremote.commands import do_rtc
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import arg, line_magic
 
 
@@ -14,7 +14,7 @@ from . import arg, line_magic
     help="Set the device RTC to the host PC’s current time.",
 )
 @line_magic
-def rtc_magic(kernel: EchoKernel, args):
+def rtc_magic(kernel: MpKernel, args):
     """Set/get the device clock (RTC)."""
     if args.set:
         do_rtc(kernel.state, args)
@@ -34,7 +34,7 @@ def rtc_magic(kernel: EchoKernel, args):
         print(t)
 
 
-def sync_time(kernel: EchoKernel, _):
+def sync_time(kernel: MpKernel, _):
     """Sync the device clock (RTC) to the host PC’s time."""
 
     class Namespace:

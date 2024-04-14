@@ -1,6 +1,6 @@
 from mpremote.commands import do_mount, do_umount
 
-from ..kernel import EchoKernel
+from ..kernel import MpKernel
 from . import arg, line_magic
 
 
@@ -22,7 +22,7 @@ from . import arg, line_magic
     help="local directory to mount on remote device",
 )
 @line_magic
-def mount_magic(kernel: EchoKernel, args):
+def mount_magic(kernel: MpKernel, args):
     """Mount local directory on remote device.
 
     This allows the remote device to see the local host directory as if it were its
@@ -50,6 +50,6 @@ def mount_magic(kernel: EchoKernel, args):
     help="local directory to mount on remote device",
 )
 @line_magic
-def umount_magic(kernel: EchoKernel, args):
+def umount_magic(kernel: MpKernel, args):
     """Unmount local directory from remote device."""
     do_umount(kernel.state, args.path[0])
