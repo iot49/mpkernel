@@ -10,12 +10,15 @@ from .magic import CELL_MAGIC, LINE_MAGIC
 class MpKernel(Kernel):
     implementation = "MpKernel"
     implementation_version = "1.0"
-    language = "no-op"
-    language_version = "0.1"
+    language = "python"
+    language_version = "3"
     language_info = {
-        "name": "mpkernel",
-        "mimetype": "text/plain",
-        "file_extension": ".txt",
+        "name": "python",
+        "version": "3",
+        "mimetype": "text/x-python",
+        "file_extension": ".py",
+        "pygments_lexer": "python3",
+        "codemirror_mode": {"name": "python", "version": 3},
     }
     banner = "MpKernel - a Jupyter kernel for MicroPython."
 
