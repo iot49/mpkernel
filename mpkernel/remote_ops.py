@@ -23,6 +23,7 @@ def fput(kernel: MpKernel, local_path: str, remote_path: str, chunk_size=256):
             if not data:
                 break
             kernel.exec_remote(f"_w({repr(data)})")
+            print(".", end="", flush=True)
     kernel.exec_remote("_f.close()")
 
 
@@ -41,13 +42,13 @@ def remote_list(kernel: MpKernel, path):
 # define TIMEUTILS_SECONDS_1970_TO_2000 (946684800ULL)
 
 _list_files = """
-import os
-_t_off = 946684800
+import os, time
+EPOCH_OFFSET = 946684800 if time.gmtime(0)[0] == 2000 else 0
 
 def _list(path, level=-1, full_path=""):
     stat = os.stat(path)
     fsize = stat[6]
-    mtime = stat[7] + _t_off
+    mtime = stat[7] + EPOCH_OFFSET
     if stat[0] & 0x4000:
         up = os.getcwd()
         os.chdir(path)

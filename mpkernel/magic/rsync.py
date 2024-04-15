@@ -172,9 +172,9 @@ def rsync_magic(kernel: MpKernel, args):
         print(f"{Fore.green}Add")
         for f in to_add:
             print(f"  {f}")
-            if not args.dry_run:
+            if not args.dry_run and not local_files[f]["is_dir"]:
                 src = os.path.join(local_files[f]["abs_path"], f)
-                dst = os.path.join(args.remote_path[0], f)
+                dst = os.path.join(args.remote_path, f)
                 fput(kernel, src, dst)
 
     if len(to_upd) > 0:
