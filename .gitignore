@@ -19,11 +19,12 @@ htmlcov
 data_kernelspec
 
 test_mpkernel.py
-.ipynb_checkpoints
+samples
 .vscode
 local
 remote
 .envrc
 CHANGELOG.md
 hatch_build.py
+.ipynb_checkpoints
 *.ipynb

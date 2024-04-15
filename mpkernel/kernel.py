@@ -64,7 +64,7 @@ class MpKernel(Kernel):
         self.state.ensure_raw_repl(soft_reset=False)
         if set_time:
             # always sync clock (e.g. for file modification times)
-            rtc.sync_time(self, None)
+            rtc.sync_time(self)
         self.state.did_action()
         try:
             self.state.transport.exec_raw_no_follow(code)  # type: ignore
