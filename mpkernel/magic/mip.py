@@ -1,5 +1,3 @@
-import os
-
 from ..kernel import MpKernel
 from ..mip import install
 from . import arg, line_magic
@@ -9,7 +7,7 @@ from . import arg, line_magic
 @arg("--mpy", action="store_true", help="install .mpy files (when available)")
 @arg(
     "--target",
-    default=f"{os.getenv('MP_LOCAL_PATH', './local')}/lib",
+    default="./local/lib",
     help="destination on the device",
 )
 @arg("--index", help="package index to use (defaults to micropython-lib)")
