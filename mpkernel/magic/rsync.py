@@ -66,7 +66,7 @@ def rlist_magic(kernel: MpKernel, args):
             print(f"{' ':7}  {' ':18}  {'    '*level} {Fore.green}{path}/")
         else:
             print(
-                f"{int(param["size"]):7}  {mtime:18} {'    '*level} {Fore.cyan}{path}"
+                f"{int(param['size']):7}  {mtime:18} {'    '*level} {Fore.cyan}{path}"
             )
         print(Style.reset, end="")
 

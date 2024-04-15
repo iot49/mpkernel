@@ -13,8 +13,8 @@ def line_magic(kernel: MpKernel, line):
     if line.startswith("!"):
         with Popen(
             line[1:],
-            stdout=PIPE,
             shell=True,
+            stdout=PIPE,
             stderr=STDOUT,
             close_fds=True,
             executable="/bin/bash",

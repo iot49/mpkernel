@@ -1,7 +1,8 @@
+import os
 from subprocess import PIPE, STDOUT, Popen
 
 from ..kernel import MpKernel
-from . import arg, cell_magic
+from . import arg, cell_magic, line_magic
 
 
 @arg("-s", "--shell", help="Shell to use", default="/bin/bash")
@@ -23,3 +24,10 @@ def shell_magic(kernel: MpKernel, args, code):
     ) as process:
         for line in iter(process.stdout.readline, b""):  # type: ignore
             print(line.rstrip().decode("utf-8"))
+
+
+@arg("local_path", help="Change local (host) working directory.")
+@line_magic
+def cd(kernel: MpKernel, args):
+    """Change local (host) working directory."""
+    os.chdir(args.local_path)
