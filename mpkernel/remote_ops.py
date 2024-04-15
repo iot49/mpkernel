@@ -23,7 +23,6 @@ def fput(kernel: MpKernel, local_path: str, remote_path: str, chunk_size=256):
             if not data:
                 break
             kernel.exec_remote(f"_w({repr(data)})")
-            print(".", end="", flush=True)
     kernel.exec_remote("_f.close()")
 
 
