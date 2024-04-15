@@ -1,3 +1,4 @@
+import os
 import sys
 
 from ipykernel.kernelbase import Kernel
@@ -26,6 +27,8 @@ class MpKernel(Kernel):
         super().__init__(*args, **kwargs)
         self.state = State()
         self.state._auto_soft_reset = False
+        if os.getenv("MP_LOCAL_WORKING_DIR") is not None:
+            os.chdir(os.getenv("MP_LOCAL_WORKING_DIR"))  # type: ignore
 
     def do_execute(  # type: ignore
         self, code, silent, store_history=True, user_expressions=None, allow_stdin=False
