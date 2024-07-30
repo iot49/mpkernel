@@ -7,7 +7,7 @@ from . import arg, line_magic
 @arg("--mpy", action="store_true", help="install .mpy files (when available)")
 @arg(
     "--target",
-    default="./local/lib",
+    default="./remote/lib",
     help="destination on the device",
 )
 @arg("--index", help="package index to use (defaults to micropython-lib)")

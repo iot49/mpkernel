@@ -15,23 +15,7 @@ from . import arg, line_magic
     action="store_true",
     help="List files on local, rather than remote machine.",
 )
-@arg(
-    "--include",
-    nargs="*",
-    default=["*"],
-    help="List of file patterns to include. Default: include all files (*). Note: put after path to avoid amgiguity.",
-)
-@arg(
-    "--exclude",
-    nargs="*",
-    default=[],
-    help="List of file patterns to exclude. Default: exclude no files. Note: put after path to avoid amgiguity.",
-)
-@arg(
-    "path",
-    nargs="*",
-    help="Path to the directories to list. Defaults to $MP_REMOTE_PATH or $MP_LOCAL_PATH if not specified.",
-)
+@arg("path", nargs="*", help="Path to the directories to list.")
 @line_magic
 def rlist_magic(kernel: MpKernel, args):
     """List files
@@ -41,66 +25,57 @@ def rlist_magic(kernel: MpKernel, args):
         %rlist                # List all (path = $MP_REMOTE_PATH or "/")
                               # files on remote machine
         %rlist -l ./local     # List directory ./local on local machine
-
-        # list only files with .py or .mpy extension, but exclude boot.py
-        # this is particularly useful for related commands, %rsync and %rdiff
-
-        %rlist / --include *.py *.mpy --exclude boot.py
     """
-    files = FileList(
-        local=args.local,
-        path=args.path,
-        include=args.include,
-        exclude=args.exclude,
-        kernel=kernel,
-    )
-    for path, param in files.files.items():
-        path = os.path.basename(path)
+    path = args.path if args.path else ["."] if args.local else ["/"]
+    # get list of files
+    files = []
+    for p in path:
+        files.extend(local_list(p) if args.local else remote_list(kernel, p))
+    if len(files) == 0:
+        print(f"{Fore.green}no files")
+    for file in files:
+        dir, level, path, mtime, sz = file.split(",")
+        level = int(level)
+        path = os.path.basename(eval(path))
         mtime = (
-            datetime.datetime.fromtimestamp(param["mtime"], datetime.UTC)
+            datetime.datetime.fromtimestamp(int(mtime), datetime.UTC)
             .astimezone()
             .strftime("%Y-%m-%d %H:%M:%S")
         )
-        level = param["level"]
-        if param["is_dir"]:
-            print(f"{' ':7}  {' ':18}  {'    '*level} {Fore.green}{path}/")
+        if dir == "D":
+            print(f"{' ':7}  {' ':19} {'    '*level} {Fore.green}{path}/")
         else:
-            print(
-                f"{int(param['size']):7}  {mtime:18} {'    '*level} {Fore.cyan}{path}"
-            )
+            print(f"{int(sz):7}  {mtime:18} {'    '*level} {Fore.cyan}{path}")
         print(Style.reset, end="")
 
 
 @arg(
-    "-n",
     "--dry-run",
     action="store_true",
     help="Only show differences, do actually sync files.",
 )
 @arg(
-    "-u",
-    "--upload-only",
+    "--no-delete",
     action="store_true",
-    help="Only upload changes, do not delete any files on remote.",
-)
-@arg(
-    "-r",
-    "--remote_path",
-    nargs="?",
-    default=os.getenv("MP_REMOTE_PATH", "/"),
-    help="Path to directory on remote. Defaults to $MP_REMOTE_PATH or root (/) if not specified.",
+    help="Do not delete files on the remote.",
 )
 @arg(
     "--include",
     nargs="*",
-    default=["*"],
-    help="List of file patterns to include. Default: include all files (*). Note: put after local_path to avoid amgiguity.",
+    default=["*.py", "*.mpy"],
+    help="List of file patterns to include. Default: ['*.py', '*.mpy']. Note: put after local_path to avoid amgiguity.",
 )
 @arg(
     "--exclude",
     nargs="*",
-    default=[],
-    help="List of file patterns to exclude. Default: exclude no files. Note: put after local_path to avoid amgiguity.",
+    default=["*__pycache__*"],
+    help="List of file patterns to exclude. Default: ['*__pycache__*']. Note: put after local_path to avoid amgiguity.",
+)
+@arg(
+    "--remote_path",
+    nargs="?",
+    default=os.getenv("MP_REMOTE_PATH", "/"),
+    help="Path to directory on remote. Defaults to $MP_REMOTE_PATH or root (/) if not specified.",
 )
 @arg(
     "local_path",
@@ -119,7 +94,7 @@ def rsync_magic(kernel: MpKernel, args):
 
     Examples:
 
-        %rsync  # Sync local to remote
+        %rsync  # Sync local (host) to remote (MicroPython)
     """
     local_files = FileList(
         local=True,
@@ -135,6 +110,9 @@ def rsync_magic(kernel: MpKernel, args):
         exclude=args.exclude,
         kernel=kernel,
     ).files
+
+    # print(json.dumps(local_files, indent=2))
+    # print(json.dumps(remote_files, indent=2))
 
     # compute differences
     lk = local_files.keys()
@@ -152,7 +130,7 @@ def rsync_magic(kernel: MpKernel, args):
             rf["is_dir"] != lf["is_dir"]
             or rf["level"] != lf["level"]
             or rf["size"] != lf["size"]
-            or rf["mtime"] < lf["mtime"]
+            or rf["mtime"] < lf["mtime"] - 10
         ):
             to_upd.add(u)
     to_upd = sorted(to_upd)
@@ -165,7 +143,7 @@ def rsync_magic(kernel: MpKernel, args):
         print(f"{Fore.red}Delete")
         for f in to_del:
             print(f"  {f}")
-            if not args.dry_run and not args.upload_only:
+            if not args.dry_run and not args.no_delete:
                 rm_rf(kernel, f)
 
     if len(to_add) > 0:

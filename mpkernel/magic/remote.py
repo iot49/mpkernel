@@ -51,9 +51,13 @@ def remote_magic(kernel: MpKernel, args, code):
             continue
         try:
             if s.startswith("%") or s.startswith("!"):
-                line_magic(kernel, s)
-            else:
-                kernel.exec_remote(s)
+                try:
+                    magic, s = s.split("\n", 1)
+                    line_magic(kernel, magic)
+                except ValueError:
+                    line_magic(kernel, s)
+                    s = ""
+            kernel.exec_remote(s)
             print()
         except SystemExit:
             # mpremote is in the habit of calling sys.exit

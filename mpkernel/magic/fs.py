@@ -26,6 +26,7 @@ def fs_magic(kernel: MpKernel, args):
     <command> may be:
 
     cat <file..> to show the contents of a file or files on the device
+        BUG: does not handle unicode characters!
 
     ls to list the current directory
 

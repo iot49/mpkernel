@@ -32,7 +32,7 @@ def remote_list(kernel: MpKernel, path):
         _list_files.replace("__PATH__", repr(path)), data_consumer=buf.write
     )
     buf = buf.getvalue().decode().replace("\x04", "").strip()
-    return buf.split("\r\n")
+    return buf.split("\r\n") if len(buf) else []
 
 
 # micropython/lib/shared/timeutils/timeutils.h
